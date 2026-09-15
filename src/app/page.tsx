@@ -1,69 +1,148 @@
-import Image from "next/image";
+import React from 'react';
+import Link from 'next/link';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import PostCard from '@/components/blog/PostCard';
+import NewsletterBox from '@/components/blog/NewsletterBox';
+import AdSlot from '@/components/ads/AdSlot';
+import { 
+  getAllCategories, 
+  getFeaturedPosts, 
+  getTrendingPosts, 
+  getPublishedPosts 
+} from '@/lib/blog-service';
+import { TrendingUp, ArrowRight, Layers } from 'lucide-react';
 
-export default function Home() {
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const categories = getAllCategories();
+  const featured = getFeaturedPosts(4);
+  const trending = getTrendingPosts(5);
+  const { posts: latestPosts } = getPublishedPosts(12, 0);
+
+  const mainFeatured = featured[0];
+  const secondaryFeatured = featured.slice(1, 4);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+      <Header categories={categories} />
+
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 pt-6">
+        <AdSlot type="header" />
+      </div>
+
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+        <div className="flex items-center space-x-3 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm mb-8 overflow-hidden">
+          <div className="flex items-center space-x-1.5 text-indigo-600 dark:text-indigo-400 font-bold text-xs uppercase flex-shrink-0">
+            <TrendingUp className="w-4 h-4" />
+            <span>Trending Now</span>
+          </div>
+          <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
+          <div className="flex items-center space-x-6 overflow-x-auto no-scrollbar text-sm">
+            {trending.slice(0, 3).map((p, i) => (
+              <Link
+                key={p.id}
+                href={`/post/${p.slug}`}
+                className="flex-items-center whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
+                <span className="font-bold text-zinc-400 mr-1.5">#0{i + 1}</span>
+                {p.title}
+              </Link>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <section className="mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              {mainFeatured && (
+                <PostCard post={mainFeatured} variant="featured-large" />
+              )}
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {secondaryFeatured.map((post) => (
+                <PostCard key={post.id} post={post} variant="compact" />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mb-12 p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base font-bold text-zinc-900 dark:text-white flex items-center">
+              <Layers className="w-4 h-4 mr-2 text-indigo-600" />
+              Explore Coverage by Niche
+            </h2>
+            <span className="text-xs text-zinc-400">7 Verified Domains</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+            {categories.map((c) => (
+              <Link
+                key={c.id}
+                href={`/category/${c.slug}`}
+                className="group p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/70 border border-zinc-200 dark:border-zinc-700 flex flex-col items-center text-center hover:border-indigo-500 transition-all"
+              >
+                <span
+                  className="w-2.5 h-2.5 rounded-full mb-1.5 group-hover:scale-125 transition-transform"
+                  style={{ backgroundColor: c.color }}
+                />
+                <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200">
+                  {c.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-extrabold tracking-tight">Latest Stories</h2>
+                <p className="text-sm text-zinc-500">Independent, filtered, and AI-augmented reporting</p>
+              </div>
+              <Link
+                href="/category/technology"
+                className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 flex items-center hover:underline"
+              >
+                View All <ArrowRight className="w-4 h-4 ml-1" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {latestPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+
+            <div className="mt-10">
+              <AdSlot type="footer" />
+            </div>
+          </div>
+
+          <aside className="space-y-8">
+            <AdSlot type="sidebar" />
+
+            <div className="p-5 pb-2 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <h3 className="text-sm font-extrabold uppercase tracking-wider text-zinc-900 dark:text-white flex items-center mb-4">
+                <TrendingUp className="w-4 h-4 mr-2 text-red-500" />
+                Most Read Across Niches
+              </h3>
+              <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+                {trending.map((post) => (
+                  <PostCard key={post.id} post={post} variant="trending-item" />
+                ))}
+              </div>
+            </div>
+
+            <NewsletterBox />
+          </aside>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }
