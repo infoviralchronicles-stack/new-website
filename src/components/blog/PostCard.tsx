@@ -17,7 +17,7 @@ export default function PostCard({ post, variant = 'default', showExcerpt = true
 
   if (variant === 'featured-large') {
     return (
-      <article className="group position-relative rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-2xl flex flex-col justify-end min-h-[420px] lg:min-h-[500px]">
+      <article className="group relative rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 shadow-2xl flex flex-col justify-end min-h-[420px] lg:min-h-[500px]">
         <div className="absolute inset-0 overflow-hidden">
           <img
             src={post.cover_image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200'}
@@ -42,8 +42,7 @@ export default function PostCard({ post, variant = 'default', showExcerpt = true
             </span>
           </div>
 
-          <h2
->
+          <h2>
             <Link 
               href={`/post/${post.slug}`}
               className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight group-hover:text-indigo-200 transition-colors line-clamp-3 mb-3"
@@ -52,7 +51,7 @@ export default function PostCard({ post, variant = 'default', showExcerpt = true
             </Link>
           </h2>
 
-          <p className="text-zinc-300 text-sm sm:text-base line-clamp-2 mb-4 max-w-3le">
+          <p className="text-zinc-300 text-sm sm:text-base line-clamp-2 mb-4 max-w-3xl">
             {post.excerpt}
           </p>
 
@@ -77,7 +76,7 @@ export default function PostCard({ post, variant = 'default', showExcerpt = true
             loading="lazy"
           />
         </div>
-        <div className="flex-g1">
+        <div className="flex-1">
           <Link
             href={`/category/${catSlug}`}
             style={{ color: catColor }}
@@ -106,7 +105,7 @@ export default function PostCard({ post, variant = 'default', showExcerpt = true
   // Default grid card
   return (
     <article className="group flex flex-col rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all">
-      <div className="position-relative w-full h-48 sm:h-52 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+      <div className="relative w-full h-48 sm:h-52 overflow-hidden bg-zinc-100 dark:bg-zinc-800">
         <img
           src={post.cover_image || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200'}
           alt={post.title}
@@ -152,7 +151,7 @@ export default function PostCard({ post, variant = 'default', showExcerpt = true
             {post.author}
           </span>
           <span className="text-indigo-600 dark:text-indigo-400 font-semibold group-hover:underline">
-            Read Story &rquo;
+            Read Story →
           </span>
         </div>
       </div>

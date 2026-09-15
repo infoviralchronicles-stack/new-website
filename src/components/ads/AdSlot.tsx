@@ -36,7 +36,7 @@ export default function AdSlot({ type, className = '' }: AdSlotProps) {
         {desc}
       </p>
       <span className="mt-1 text-xs text-indigo-600 dark:text-indigo-400 font-semibold underline cursor-pointer">
-        Contact for Rates & Placement &rquo;
+        Contact for Rates & Placement →
       </span>
     </aside>
   );
