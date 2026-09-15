@@ -2,17 +2,37 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 
-const dataDir = path.join(process.cwd(), 'data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
+const isVercel = process.env.VERCEL === '1' || process.env.NODE_ENV === 'production' && !fs.existsSync(path.join(process.cwd(), 'data', 'blog.db'));
+
+let dbPath = path.join(process.cwd(), 'data', 'blog.db');
+
+// In Vercel serverless environment, the bundled filesystem is read-only.
+// If writable copy is needed, copy to /tmp or open with readonly: false if writable, or copy database to /tmp/blog.db
+if (process.env.VERCEL === '1') {
+  const tmpPath = '/tmp/blog.db';
+  if (!fs.existsSync(tmpPath) && fs.existsSync(dbPath)) {
+    try {
+      fs.copyFileSync(dbPath, tmpPath);
+    } catch (e) {}
+  }
+  if (fs.existsSync(tmpPath)) {
+    dbPath = tmpPath;
+  }
 }
 
-const dbPath = path.join(dataDir, 'blog.db');
-const db = new Database(dbPath);
+let db: any;
+try {
+  db = new Database(dbPath);
+  try {
+    db.pragma('journal_mode = WAL');
+  } catch (e) {}
+} catch (err) {
+  // If still fails with readonly, open in readonly mode
+  db = new Database(dbPath, { readonly: true });
+}
 
-db.pragma('journal_mode = WAL');
-
-db.exec(`
+try {
+  db.exec(`
   CREATE TABLE IF NOT EXISTS categories (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
@@ -69,6 +89,9 @@ db.exec(`
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
 `);
+} catch (e) {
+  // Ignored if table already exists or read-only filesystem
+}
 
 export interface Category {
   id: string;
@@ -141,9 +164,14 @@ const defaultSettings: Record<string, string> = {
   ad_footer_enabled: '1'
 };
 
-const insertSettingStmt = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');
-for (const [key, value] of Object.entries(defaultSettings)) {
-  insertSettingStmt.run(key, value);
+try {
+  const insertSettingStmt = db.prepare('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)');
+  for (const [key, value] of Object.entries(defaultSettings)) {
+    insertSettingStmt.run(key, value);
+  }
+} catch (e) {
+  // Readonly in Vercel lambda
 }
 
 export { db };
+
