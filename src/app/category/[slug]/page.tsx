@@ -7,7 +7,40 @@ import NewsletterBox from '@/components/blog/NewsletterBox';
 import AdSlot from '@/components/ads/AdSlot';
 import { getAllCategories, getCategoryBySlug, getPublishedPosts } from '@/lib/blog-service';
 
+import { SITE_CONFIG } from '@/lib/site-config';
+
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({ params }: any) {
+  const resolved = await params;
+  const category = getCategoryBySlug(resolved.slug);
+  if (!category) return {};
+
+  const title = `${category.name} Stories & Insights | ${SITE_CONFIG.name}`;
+  const description = category.description || `Read the latest articles and expert deep-dives on ${category.name}.`;
+  const url = `${SITE_CONFIG.siteUrl}/category/${category.slug}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: SITE_CONFIG.name,
+      images: [{ url: SITE_CONFIG.defaultOgImage, width: 1200, height: 630, alt: category.name }],
+      type: 'website'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [SITE_CONFIG.defaultOgImage],
+      creator: SITE_CONFIG.social.twitter
+    },
+    alternates: { canonical: url }
+  };
+}
 
 export default async function CategoryPage({ params }: any) {
   const resolved = await params;
@@ -20,9 +53,30 @@ export default async function CategoryPage({ params }: any) {
   }
 
   const { posts, total } = getPublishedPosts(24, 0, slug);
+  const categoryUrl = `${SITE_CONFIG.siteUrl}/category/${category.slug}`;
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: SITE_CONFIG.siteUrl
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: category.name,
+        item: categoryUrl
+      }
+    ]
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Header categories={categories} />
 
       <div 

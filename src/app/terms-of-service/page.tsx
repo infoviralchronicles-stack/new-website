@@ -3,6 +3,15 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { getAllCategories } from '@/lib/blog-service';
 
+import { SITE_CONFIG } from '@/lib/site-config';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: `Terms of Service | ${SITE_CONFIG.name}`,
+  description: `Terms of service and user agreements governing the use of ${SITE_CONFIG.name}.`,
+  alternates: { canonical: `${SITE_CONFIG.siteUrl}/terms-of-service` }
+};
+
 export default async function TermsPage() {
   const categories = getAllCategories();
 
@@ -26,9 +35,9 @@ export default async function TermsPage() {
             All original text, graphics, logos, and compilations presented on NexusSphere are owned by or licensed to NexusSphere Media Inc. and are protected by international copyright laws.
           </p>
 
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white">2. AI-generated and Syndicated Content</h3>
+          <h3 className="text-xl font-bold text-zinc-900 dark:text-white">2. AI-assisted and Syndicated Content</h3>
           <p>
-            Our platform utilizes ai-assisted research and generation tools to audt public trends. While we strive for pinnacle faitness and factual accuracy, content is provided for informational purposes only.
+            Our platform utilizes AI-assisted research and publishing tools to cover global trends. While we strive for absolute accuracy and objectivity, content is provided for informational and educational purposes.
           </p>
 
           <h3 className="text-xl font-bold text-zinc-900 dark:text-white">3. Limitation of Liability</h3>

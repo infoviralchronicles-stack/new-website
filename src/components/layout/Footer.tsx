@@ -12,7 +12,7 @@ export default function Footer() {
                 N
               </div>
               <span className="text-xl font-bold tracking-tight text-white">
-                NEXUS<span className="text-indigo-400">SPHEREL</span>
+                NEXUS<span className="text-indigo-400">SPHERE</span>
               </span>
             </Link>
             <p className="text-sm leading-relaxed mb-4">

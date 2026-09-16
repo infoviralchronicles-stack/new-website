@@ -4,6 +4,15 @@ import Footer from '@/components/layout/Footer';
 import { getAllCategories } from '@/lib/blog-service';
 import { Shield, Cpu, Globe, Award, Sparkles } from 'lucide-react';
 
+import { SITE_CONFIG } from '@/lib/site-config';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: `About Us | ${SITE_CONFIG.name}`,
+  description: `Discover the mission, editorial standards, and technology driving ${SITE_CONFIG.name}.`,
+  alternates: { canonical: `${SITE_CONFIG.siteUrl}/about` }
+};
+
 export default async function AboutPage() {
   const categories = getAllCategories();
 

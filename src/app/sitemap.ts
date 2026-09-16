@@ -1,8 +1,9 @@
 import { MetadataRoute } from 'next';
 import { getPublishedPosts, getAllCategories } from '@/lib/blog-service';
+import { SITE_CONFIG } from '@/lib/site-config';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nexussphere.magazine';
+  const baseUrl = SITE_CONFIG.siteUrl;
 
   const staticPaths = [
     '',

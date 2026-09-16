@@ -151,17 +151,17 @@ export interface SiteSettings {
 }
 
 const defaultSettings: Record<string, string> = {
-  site_name: 'NexusSphere Magazine',
+  site_name: 'NexusSphere',
   site_description: 'The definitive pulse on Technology, Business, Health, Modern Lifestyle, Entertainment, Travel, and Global Sports.',
-  site_url: 'http://localhost:3000',
+  site_url: process.env.NEXT_PUBLIC_SITE_URL || 'https://new-eta-rosy.vercel.app',
   gemini_api_key: '',
   auto_generate_enabled: '1',
   auto_publish: '1',
   generation_interval_hours: '4',
-  ad_header_enabled: '1',
-  ad_sidebar_enabled: '1',
-  ad_inarticle_enabled: '1',
-  ad_footer_enabled: '1'
+  ad_header_enabled: '0',
+  ad_sidebar_enabled: '0',
+  ad_inarticle_enabled: '0',
+  ad_footer_enabled: '0'
 };
 
 try {

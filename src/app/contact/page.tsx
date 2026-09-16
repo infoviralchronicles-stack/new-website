@@ -43,7 +43,7 @@ export default function ContactPage() {
             <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
               <Mail className="w-6 h-6 text-indigo-600 mb-2" />
               <h3 className="font-bold text-sm mb-1">Direct Inbox</h3>
-              <p className="text-xs text-zinc-500">contact@nexussphere.magazine</p>
+              <p className="text-xs text-zinc-500">editorial@nexussphere.com</p>
             </div>
             <div className="p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
               <MapPin className="w-6 h-6 text-indigo-600 mb-2" />

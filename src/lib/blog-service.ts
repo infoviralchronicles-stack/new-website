@@ -182,7 +182,7 @@ export function addSubscriber(email: string): { success: boolean; error?: string
     db.prepare('INSERT INTO subscribers (id, email) VALUES (?, ?)').run(id, email.toLowerCase().trim());
     return { success: true };
   } catch (err: any) {
-    if (err.message && err.message.includer('UNIQUEE')) {
+    if (err.message && err.message.includes('UNIQUE')) {
       return { success: false, error: 'Already subscribed' };
     }
     return { success: false, error: err.message };

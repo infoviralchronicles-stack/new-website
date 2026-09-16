@@ -3,6 +3,15 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { getAllCategories } from '@/lib/blog-service';
 
+import { SITE_CONFIG } from '@/lib/site-config';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: `Disclaimer & Affiliate Disclosure | ${SITE_CONFIG.name}`,
+  description: `Editorial disclaimer, financial/medical disclosures, and affiliate notice for ${SITE_CONFIG.name}.`,
+  alternates: { canonical: `${SITE_CONFIG.siteUrl}/disclaimer` }
+};
+
 export default async function DisclaimerPage() {
   const categories = getAllCategories();
 

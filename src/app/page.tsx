@@ -13,6 +13,8 @@ import {
 } from '@/lib/blog-service';
 import { TrendingUp, ArrowRight, Layers } from 'lucide-react';
 
+import { SITE_CONFIG } from '@/lib/site-config';
+
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
@@ -24,8 +26,38 @@ export default async function HomePage() {
   const mainFeatured = featured[0];
   const secondaryFeatured = featured.slice(1, 4);
 
+  const homeJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE_CONFIG.siteUrl}/#website`,
+        url: SITE_CONFIG.siteUrl,
+        name: SITE_CONFIG.name,
+        description: SITE_CONFIG.description,
+        publisher: {
+          '@id': `${SITE_CONFIG.siteUrl}/#organization`
+        },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: `${SITE_CONFIG.siteUrl}/search?q={search_term_string}`,
+          'query-input': 'required name=search_term_string'
+        }
+      },
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_CONFIG.siteUrl}/#organization`,
+        name: SITE_CONFIG.legalName,
+        url: SITE_CONFIG.siteUrl,
+        logo: `${SITE_CONFIG.siteUrl}/favicon.ico`,
+        sameAs: []
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }} />
       <Header categories={categories} />
 
 

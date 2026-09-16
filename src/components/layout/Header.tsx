@@ -73,7 +73,8 @@ export default function Header({ categories }: HeaderProps) {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-none">
-                NEXeS</span>
+                NEXUS<span className="text-indigo-600 dark:text-indigo-400">SPHERE</span>
+              </span>
               <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-400 dark:text-zinc-500 mt-0.5">
                 Global Journal
               </span>

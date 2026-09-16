@@ -3,6 +3,15 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { getAllCategories } from '@/lib/blog-service';
 
+import { SITE_CONFIG } from '@/lib/site-config';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: `Privacy Policy | ${SITE_CONFIG.name}`,
+  description: `Learn how ${SITE_CONFIG.name} protects your personal data in compliance with GDPR and CCPA.`,
+  alternates: { canonical: `${SITE_CONFIG.siteUrl}/privacy-policy` }
+};
+
 export default async function PrivacyPage() {
   const categories = getAllCategories();
 

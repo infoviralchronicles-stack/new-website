@@ -13,30 +13,40 @@ import { Clock, Eye, Tag, ChevronLeft } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
+import { SITE_CONFIG } from '@/lib/site-config';
+
 export async function generateMetadata({ params }: any) {
   const resolved = await params;
   const post = getPostBySlug(resolved.slug);
   if (!post) return {};
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nexussphere.magazine';
-  const postUrl = siteUrl + '/post/' + post.slug;
+  const siteUrl = SITE_CONFIG.siteUrl;
+  const postUrl = `${siteUrl}/post/${post.slug}`;
+  const title = post.seo_title || post.title;
+  const description = post.seo_description || post.excerpt;
+  const imageUrl = post.cover_image || SITE_CONFIG.defaultOgImage;
+
   return {
-    title: post.seo_title || post.title,
-    description: post.seo_description || post.excerpt,
+    title,
+    description,
+    keywords: post.tags ? post.tags.split(',').map((t: string) => t.trim()) : [],
+    authors: [{ name: post.author || 'Nexus Editorial' }],
     openGraph: {
-      title: post.seo_title || post.title,
-      description: post.seo_description || post.excerpt,
+      title,
+      description,
       url: postUrl,
-      siteName: 'NexusSphere',
-      images: [{ url: post.cover_image || 'https://images.unsplash.com/photo-1518770660968-6d967f161d5a?q=80&w-1200', width: 1200, height: 630, alt: post.title }],
+      siteName: SITE_CONFIG.name,
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: post.title }],
       type: 'article',
       publishedTime: post.published_at,
+      modifiedTime: post.updated_at || post.published_at,
       authors: [post.author || 'Nexus Editorial']
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.seo_title || post.title,
-      description: post.seo_description || post.excerpt,
-      images: [post.cover_image || 'https://images.unsplash.com/photo-1518770660968-6d967f161d5a?q=80&w=1200']
+      title,
+      description,
+      images: [imageUrl],
+      creator: SITE_CONFIG.social.twitter
     },
     alternates: { canonical: postUrl }
   };
@@ -50,26 +60,66 @@ export default async function PostDetailPage({ params }: any) {
   if (!post) notFound();
   const related = getRelatedPosts(post.category_id, post.id, 3);
   const tagsList = post.tags ? post.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nexussphere.magazine';
-  const postUrl = siteUrl + '/post/' + post.slug;
+  const siteUrl = SITE_CONFIG.siteUrl;
+  const postUrl = `${siteUrl}/post/${post.slug}`;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
     headline: post.title,
     description: post.excerpt,
-    image: [post.cover_image || 'https://images.unsplash.com/photo-1518770660968-6d967f161d5a?q=80&w=1200'],
+    image: [post.cover_image || SITE_CONFIG.defaultOgImage],
     datePublished: post.published_at,
     dateModified: post.updated_at || post.published_at,
-    author: [{ '@type': 'Person', name: post.author || 'Nexus Editorial' }],
-    publisher: { '@type': 'Organization', name: 'NexusSphere', logo: { '@type': 'ImageObject', url: siteUrl + '/icon.png' } },
-    mainEntityOfPage: { '@type': 'WebPage', 'id': postUrl }
+    author: [{
+      '@type': 'Person',
+      name: post.author || 'Nexus Editorial',
+      url: `${siteUrl}/about`
+    }],
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/favicon.ico`
+      }
+    },
+    articleSection: post.category_name,
+    keywords: post.tags
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: post.category_name,
+        item: `${siteUrl}/category/${post.category_slug}`
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post.title,
+        item: postUrl
+      }
+    ]
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Header categories={categories} />
-      <main className="flex-1 max-w-7xl wull mx-auto px-4 sm:px-6 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
         <div className="mb-6">
           <Link href={'/category/' + post.category_slug} className="inline-flex items-center text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
             <ChevronLeft className="w-4 h-4 mr-1" /> Back to {post.category_name}
@@ -110,7 +160,7 @@ export default async function PostDetailPage({ params }: any) {
           </div>
           <AdSlot type="inarticle" />
           <div className="prose dark:prose-invert prose-indigo max-w-none leading-relaxed text-base sm:text-lg">
-            {post.content.split('\n\n').map((block: string, i: number) => {
+            {post.content.split(/\n\s*\n/).map((block: string, i: number) => {
               const trimmed = block.trim();
               if (!trimmed) return null;
 
@@ -119,18 +169,43 @@ export default async function PostDetailPage({ params }: any) {
                 return <hr key={i} className="my-8 border-zinc-200 dark:border-zinc-800" />;
               }
 
-              // Headings: H1, H2, H3, H4
-              if (trimmed.startsWith('# ')) {
-                return <h1 key={i} className="text-3xl sm:text-4xl font-extrabold mt-10 mb-5 text-zinc-900 dark:text-white tracking-tight">{trimmed.replace(/^#\s+/, '')}</h1>;
-              }
-              if (trimmed.startsWith('## ')) {
-                return <h2 key={i} className="text-2xl sm:text-3xl font-bold mt-10 mb-4 text-zinc-900 dark:text-white tracking-tight pb-2 border-b border-zinc-100 dark:border-zinc-800">{trimmed.replace(/^##\s+/, '')}</h2>;
-              }
-              if (trimmed.startsWith('### ')) {
-                return <h3 key={i} className="text-xl sm:text-2xl font-bold mt-8 mb-3 text-zinc-900 dark:text-white">{trimmed.replace(/^###\s+/, '')}</h3>;
-              }
-              if (trimmed.startsWith('#### ')) {
-                return <h4 key={i} className="text-lg font-bold mt-6 mb-2 text-zinc-800 dark:text-zinc-200">{trimmed.replace(/^####\s+/, '')}</h4>;
+              // Multi-line block that starts with heading: split heading from rest of paragraph if needed
+              if (/^#{1,4}\s+/.test(trimmed)) {
+                const lines = trimmed.split('\n');
+                const firstLine = lines[0].trim();
+                const restLines = lines.slice(1).join('\n').trim();
+
+                const renderHeading = (line: string, keyIdx: string | number) => {
+                  if (line.startsWith('# ')) {
+                    return <h2 key={keyIdx} className="text-3xl sm:text-4xl font-extrabold mt-10 mb-5 text-zinc-900 dark:text-white tracking-tight">{line.replace(/^#\s+/, '')}</h2>;
+                  }
+                  if (line.startsWith('## ')) {
+                    return <h2 key={keyIdx} className="text-2xl sm:text-3xl font-bold mt-10 mb-4 text-zinc-900 dark:text-white tracking-tight pb-2 border-b border-zinc-100 dark:border-zinc-800">{line.replace(/^##\s+/, '')}</h2>;
+                  }
+                  if (line.startsWith('### ')) {
+                    return <h3 key={keyIdx} className="text-xl sm:text-2xl font-bold mt-8 mb-3 text-zinc-900 dark:text-white">{line.replace(/^###\s+/, '')}</h3>;
+                  }
+                  if (line.startsWith('#### ')) {
+                    return <h4 key={keyIdx} className="text-lg font-bold mt-6 mb-2 text-zinc-800 dark:text-zinc-200">{line.replace(/^####\s+/, '')}</h4>;
+                  }
+                  return null;
+                };
+
+                return (
+                  <React.Fragment key={i}>
+                    {renderHeading(firstLine, `h-${i}`)}
+                    {restLines && (
+                      <p className="mb-6 text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                        {restLines.split(/(\*\*.*?\*\*)/g).map((part, pIdx) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={pIdx} className="font-bold text-zinc-900 dark:text-white">{part.slice(2, -2)}</strong>;
+                          }
+                          return part;
+                        })}
+                      </p>
+                    )}
+                  </React.Fragment>
+                );
               }
 
               // Blockquotes
@@ -145,7 +220,7 @@ export default async function PostDetailPage({ params }: any) {
               // Bullet lists or checklists
               if (trimmed.split('\n').every(line => line.trim().startsWith('- ') || line.trim().startsWith('* ') || /^-\s*\[[ x]\]/i.test(line.trim()))) {
                 return (
-                  <ul key={i} className="space-y-2 my-5 list-disc pl-6 text-zinc-800 dark:text-zinc-200">
+                  <ul key={i} className="space-y-2.5 my-5 list-disc pl-6 text-zinc-800 dark:text-zinc-200">
                     {trimmed.split('\n').map((item, idx) => {
                       const cleanItem = item.replace(/^[-*]\s*(\[[ x]\]\s*)?/i, '').trim();
                       const parts = cleanItem.split(/(\*\*.*?\*\*)/g);
@@ -161,6 +236,28 @@ export default async function PostDetailPage({ params }: any) {
                       );
                     })}
                   </ul>
+                );
+              }
+
+              // Numbered lists (1. Item)
+              if (trimmed.split('\n').every(line => /^\d+\.\s+/.test(line.trim()))) {
+                return (
+                  <ol key={i} className="space-y-2.5 my-5 list-decimal pl-6 text-zinc-800 dark:text-zinc-200">
+                    {trimmed.split('\n').map((item, idx) => {
+                      const cleanItem = item.replace(/^\d+\.\s+/, '').trim();
+                      const parts = cleanItem.split(/(\*\*.*?\*\*)/g);
+                      return (
+                        <li key={idx} className="leading-relaxed">
+                          {parts.map((part, pIdx) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              return <strong key={pIdx} className="font-bold text-zinc-900 dark:text-white">{part.slice(2, -2)}</strong>;
+                            }
+                            return part;
+                          })}
+                        </li>
+                      );
+                    })}
+                  </ol>
                 );
               }
 
