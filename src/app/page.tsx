@@ -63,22 +63,24 @@ export default async function HomePage() {
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center space-x-3 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm mb-8 overflow-hidden">
-          <div className="flex items-center space-x-1.5 text-indigo-600 dark:text-indigo-400 font-bold text-xs uppercase flex-shrink-0">
+          <div className="flex items-center space-x-1.5 text-indigo-600 dark:text-indigo-400 font-bold text-xs uppercase flex-shrink-0 z-10 bg-white dark:bg-zinc-900 pr-2">
             <TrendingUp className="w-4 h-4" />
             <span>Trending Now</span>
           </div>
-          <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800" />
-          <div className="flex items-center space-x-6 overflow-x-auto no-scrollbar text-sm">
-            {trending.slice(0, 3).map((p, i) => (
-              <Link
-                key={p.id}
-                href={`/post/${p.slug}`}
-                className="flex-items-center whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-              >
-                <span className="font-bold text-zinc-400 mr-1.5">#0{i + 1}</span>
-                {p.title}
-              </Link>
-            ))}
+          <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800 flex-shrink-0 z-10" />
+          <div className="relative flex-1 overflow-hidden">
+            <div className="animate-marquee items-center space-x-8 text-sm">
+              {[...trending, ...trending].map((p, i) => (
+                <Link
+                  key={`${p.id}-${i}`}
+                  href={`/post/${p.slug}`}
+                  className="flex items-center whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mr-6"
+                >
+                  <span className="font-bold text-zinc-400 mr-2">#0{(i % trending.length) + 1}</span>
+                  {p.title}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
