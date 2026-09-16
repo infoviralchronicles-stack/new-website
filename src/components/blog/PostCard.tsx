@@ -65,6 +65,43 @@ export default function PostCard({ post, variant = 'default', showExcerpt = true
     );
   }
 
+  if (variant === 'compact') {
+    return (
+      <article className="group flex rounded-xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all p-3 items-center gap-3.5">
+        <div className="w-24 h-24 sm:w-28 sm:h-24 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-100 dark:bg-zinc-800 relative">
+          <img
+            src={post.cover_image || '/fallback.jpg'}
+            alt={post.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
+            loading="lazy"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <Link
+            href={`/category/${catSlug}`}
+            style={{ color: catColor }}
+            className="text-[11px] font-bold uppercase tracking-wider mb-1 inline-block"
+          >
+            {catName}
+          </Link>
+          <h3 className="mb-1">
+            <Link
+              href={`/post/${post.slug}`}
+              className="text-sm font-bold text-zinc-900 dark:text-white line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug"
+            >
+              {post.title}
+            </Link>
+          </h3>
+          <div className="flex items-center space-x-2 text-[11px] text-zinc-500">
+            <span>{formatMarkdownDate(post.published_at)}</span>
+            <span>&middot;</span>
+            <span>{post.reading_time} min read</span>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
   if (variant === 'trending-item') {
     return (
       <article className="group flex items-start space-x-3.5 py-3.5 border-b border-zinc-200 dark:border-zinc-800/80 last:border-0">

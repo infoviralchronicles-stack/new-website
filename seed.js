@@ -157,7 +157,7 @@ const posts = [
     author: 'Julian Thorne',
     author_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop',
     status: 'published',
-    featured: 0,
+    featured: 1,
     trending: 1,
     views: 1650,
     reading_time: 4,
