@@ -35,12 +35,13 @@ CRITICAL FORMATTING & STYLE RULES:
    - Create direct, professional, high-authority headlines.
 3. SEO TITLE RESTRICTION:
    - "seo_title" MUST BE STRICTLY UNDER 60 CHARACTERS (including spaces). Count characters carefully.
-4. NATURAL CONTEXTUAL IN-TEXT LINK INSERTION:
+4. NATURAL CONTEXTUAL IN-TEXT LINK INSERTION (TOPICALLY RELEVANT ONLY):
    - DO NOT insert any links in the 1st paragraph. Keep the opening paragraph completely clean of links.
    - DO NOT link to category pages (e.g. /category/*).
-   - ONLY link internally to relevant articles / stories using natural context phrases in the 2nd paragraph, 3rd paragraph, and subsequent sections.
-   - Weave links naturally on specific, meaningful anchor words (e.g. [autonomous computing systems](/post/the-agentic-ai-revolution-how-autonomous-systems-transform-software), [high-leverage creative workflows](/post/art-of-essentialism-designing-high-leverage-life-cognitive-overload), [sustainable capital efficiency](/post/venture-capital-age-of-high-efficiency-sustainable-cash-flow), [deep recovery biology](/post/circadian-biology-deep-sleep-architecture-peak-recovery)).
-   - DO NOT link generic phrases like "click here", "read more", or raw URLs.
+   - ONLY link internally to genuine related articles where the subject matter naturally aligns with the target article.
+   - NEVER repeat the same canned anchor phrases across different articles (e.g. DO NOT copy-paste phrases like "high-leverage creative workflows" or "deep recovery biology" into unrelated articles).
+   - The anchor words MUST describe the actual subject matter of the linked target story in natural sentence flow (e.g., if linking to cinema/entertainment, link naturally on words like [interactive storytelling and Hollywood CGI](/post/renaissance-interactive-cinema-unreal-engine-5-blurring-movies-games); if linking to lifestyle, link on words like [minimalist living and mental focus](/post/art-of-essentialism-designing-high-leverage-life-cognitive-overload); if linking to tech, link on words like [autonomous software systems](/post/the-agentic-ai-revolution-how-autonomous-systems-transform-software)).
+   - NEVER use generic phrases like "click here", "read more", or raw URLs.
    - NEVER repeat the same link target. Each link must point to a distinct article URL.
 
 ARTICLE STRUCTURE:
