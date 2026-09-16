@@ -193,9 +193,9 @@ export default async function PostDetailPage({ params }: any) {
                 const trimmed = block.trim();
                 if (!trimmed) return null;
 
-              // Horizontal Rule
+              // Horizontal Rule (omitted per design to keep article clean without separators)
               if (trimmed === '---' || trimmed === '***') {
-                return <hr key={i} className="my-8 border-zinc-200 dark:border-zinc-800" />;
+                return null;
               }
 
               // Multi-line block that starts with heading: split heading from rest of paragraph if needed
@@ -209,7 +209,7 @@ export default async function PostDetailPage({ params }: any) {
                     return <h2 key={keyIdx} className="text-3xl sm:text-4xl font-extrabold mt-10 mb-5 text-zinc-900 dark:text-white tracking-tight">{line.replace(/^#\s+/, '')}</h2>;
                   }
                   if (line.startsWith('## ')) {
-                    return <h2 key={keyIdx} className="text-2xl sm:text-3xl font-bold mt-10 mb-4 text-zinc-900 dark:text-white tracking-tight pb-2 border-b border-zinc-100 dark:border-zinc-800">{line.replace(/^##\s+/, '')}</h2>;
+                    return <h2 key={keyIdx} className="text-2xl sm:text-3xl font-bold mt-10 mb-4 text-zinc-900 dark:text-white tracking-tight">{line.replace(/^##\s+/, '')}</h2>;
                   }
                   if (line.startsWith('### ')) {
                     return <h3 key={keyIdx} className="text-xl sm:text-2xl font-bold mt-8 mb-3 text-zinc-900 dark:text-white">{line.replace(/^###\s+/, '')}</h3>;

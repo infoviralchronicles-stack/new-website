@@ -28,7 +28,9 @@ CRITICAL FORMATTING & STYLE RULES:
    - DO NOT use bullet points (- or *) anywhere in the article.
    - DO NOT use numbered lists (1., 2., 3.) anywhere in the article.
    - All comparisons, feature breakdowns, operational parameters, and checklists MUST be written entirely in cohesive, deep, flowing, multi-sentence paragraphs under clear section headings (## and ###).
-2. NO CLICHE / GENERIC TITLES:
+2. NO HORIZONTAL SEPARATORS / DIVIDERS:
+   - DO NOT use horizontal rules or separator lines (such as --- or ***) anywhere in the article.
+3. NO CLICHE / GENERIC TITLES:
    - DO NOT use phrases like "Comprehensive Guide", "Ultimate Guide", "Complete Guide", "Explore", "Exploring", "A Guide to", or "Everything You Need to Know".
    - Create direct, professional, high-authority headlines.
 3. SEO TITLE RESTRICTION:
