@@ -84,15 +84,20 @@ export default function AIStudioPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm;px-6 lg:x-8 py-8">
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 text-xs font-semibold mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            NexusSphere Investigative AI Engine
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5" />
+              NexusSphere Investigative AI Engine
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-bold border border-emerald-200 dark:border-emerald-800">
+              Target Length: 1,000 – 1,300 Words
+            </div>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             AI Content Studio & Topic Orchestrator
           </h1>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1 max-w-3xl">
-            Discover high-traffic trending topics across all 7 niches, generate shockwave SEO articles with curated, copyright-safe images, and publish in one-click.
+            Discover high-traffic trending topics across all 7 niches, generate in-depth long-form articles (1,000–1,300 words) with curated copyright-safe images, and publish in one click.
           </p>
         </div>
 

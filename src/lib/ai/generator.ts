@@ -117,6 +117,9 @@ export async function generateArticleFromTopic(topic: string, nicheSlug: string,
   const slug = slugify(articleData.title, { lower: true, strict: true }) + '-' + Math.random().toString(36).substring(5, 9);
   const cover_image = getRoyaltyFreeImage(articleData.suggested_image_keywords || niche.slug, niche.slug);
 
+  const wordCount = (articleData.content || '').split(/\s+/).filter(Boolean).length;
+  const calculatedReadingTime = Math.max(5, Math.ceil(wordCount / 180));
+
   const postId = createPost({
     title: articleData.title,
     slug,
@@ -131,7 +134,7 @@ export async function generateArticleFromTopic(topic: string, nicheSlug: string,
     featured: 0,
     trending: 1,
     views: 12,
-    reading_time: articleData.reading_time || 5,
+    reading_time: calculatedReadingTime,
     seo_title: articleData.seo_title,
     seo_description: articleData.seo_description,
     published_at: new Date().toISOString()
