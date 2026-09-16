@@ -107,7 +107,7 @@ Tour Mode and conservative My Mode configurations remain the premier choices for
 
 const article2 = {
   id: 'post_eve_hewson_profile',
-  title: 'Eve Hewson Husband',
+  title: 'Eve Hewson Husband: Marriage Facts and Relationship Truth',
   slug: 'eve-hewson-husband',
   excerpt: 'A factual biographical analysis of Irish actress Eve Hewson, detailing her high-profile filmography, personal relationship milestones, and media privacy choices.',
   category_id: 'entertainment',
@@ -119,7 +119,7 @@ const article2 = {
   trending: 1,
   views: 1240,
   reading_time: 6,
-  seo_title: 'Eve Hewson Husband',
+  seo_title: 'Eve Hewson Husband: Marriage Facts and Relationship Truth',
   seo_description: 'Is Eve Hewson married? Discover the factual truth about her relationship status, husband rumors, career, and private life.',
   published_at: new Date(Date.now() + 60000).toISOString(),
   content: `Celebrity biography culture frequently experiences intense digital search surges surrounding the marital status and romantic partnerships of prominent screen stars. With her celebrated performances across acclaimed international television productions and major cinematic features, Irish actress Eve Hewson has become a central subject of widespread audience curiosity. Fans regularly search for details concerning her husband, romantic history, and domestic arrangements as her star profile ascends worldwide.
