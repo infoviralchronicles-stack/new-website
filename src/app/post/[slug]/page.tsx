@@ -160,9 +160,38 @@ export default async function PostDetailPage({ params }: any) {
           </div>
           <AdSlot type="inarticle" />
           <div className="prose dark:prose-invert prose-indigo max-w-none leading-relaxed text-base sm:text-lg">
-            {post.content.split(/\n\s*\n/).map((block: string, i: number) => {
-              const trimmed = block.trim();
-              if (!trimmed) return null;
+            {(() => {
+              // Function to render inline formatted text (links [anchor](url) and bold **text**)
+              const renderInlineContent = (rawText: string) => {
+                const tokenRegex = /(\[.*?\]\(.*?\)|\*\*.*?\*\*)/g;
+                const tokens = rawText.split(tokenRegex);
+
+                return tokens.map((token, tIdx) => {
+                  if (token.startsWith('**') && token.endsWith('**')) {
+                    return <strong key={tIdx} className="font-bold text-zinc-900 dark:text-white">{token.slice(2, -2)}</strong>;
+                  }
+                  const linkMatch = token.match(/^\[(.*?)\]\((.*?)\)$/);
+                  if (linkMatch) {
+                    const [, anchorText, linkHref] = linkMatch;
+                    const isInternal = linkHref.startsWith('/') || linkHref.includes('new-eta-rosy.vercel.app');
+                    return (
+                      <Link
+                        key={tIdx}
+                        href={linkHref}
+                        className="font-semibold text-indigo-600 dark:text-indigo-400 underline decoration-indigo-300 dark:decoration-indigo-700 underline-offset-4 hover:text-indigo-800 dark:hover:text-indigo-300 hover:decoration-indigo-500 transition-colors"
+                        {...(!isInternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      >
+                        {anchorText}
+                      </Link>
+                    );
+                  }
+                  return token;
+                });
+              };
+
+              return post.content.split(/\n\s*\n/).map((block: string, i: number) => {
+                const trimmed = block.trim();
+                if (!trimmed) return null;
 
               // Horizontal Rule
               if (trimmed === '---' || trimmed === '***') {
@@ -196,12 +225,7 @@ export default async function PostDetailPage({ params }: any) {
                     {renderHeading(firstLine, `h-${i}`)}
                     {restLines && (
                       <p className="mb-6 text-zinc-800 dark:text-zinc-200 leading-relaxed">
-                        {restLines.split(/(\*\*.*?\*\*)/g).map((part, pIdx) => {
-                          if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={pIdx} className="font-bold text-zinc-900 dark:text-white">{part.slice(2, -2)}</strong>;
-                          }
-                          return part;
-                        })}
+                        {renderInlineContent(restLines)}
                       </p>
                     )}
                   </React.Fragment>
@@ -295,19 +319,13 @@ export default async function PostDetailPage({ params }: any) {
                 }
               }
 
-              // Standard Paragraph with bold formatting (**text**)
-              const parts = trimmed.split(/(\*\*.*?\*\*)/g);
               return (
                 <p key={i} className="mb-6 text-zinc-800 dark:text-zinc-200 leading-relaxed">
-                  {parts.map((part, pIdx) => {
-                    if (part.startsWith('**') && part.endsWith('**')) {
-                      return <strong key={pIdx} className="font-bold text-zinc-900 dark:text-white">{part.slice(2, -2)}</strong>;
-                    }
-                    return part;
-                  })}
+                  {renderInlineContent(trimmed)}
                 </p>
               );
-            })}
+            });
+          })()}
           </div>
           {tagsList.length > 0 && (
             <div className="mt-10 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center gap-2">

@@ -33,6 +33,10 @@ CRITICAL FORMATTING & STYLE RULES:
    - Create direct, professional, high-authority headlines.
 3. SEO TITLE RESTRICTION:
    - "seo_title" MUST BE STRICTLY UNDER 60 CHARACTERS (including spaces). Count characters carefully.
+4. NATURAL CONTEXTUAL IN-TEXT LINK INSERTION:
+   - Naturally integrate 3 to 4 relevant Markdown links on specific contextual anchor phrases within sentences (e.g. [high-performance technology](/category/technology), [modern market dynamics](/category/business), [restorative health](/category/health), [digital nomad setups](/category/travel)).
+   - Always link on meaningful, natural context words. DO NOT link generic phrases like "click here", "read more", or raw URLs.
+   - NEVER repeat the same link target. Each link must point to a distinct URL and be woven seamlessly into the prose.
 
 ARTICLE STRUCTURE:
 - Opening analytical perspective and industry shift
