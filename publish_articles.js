@@ -112,7 +112,7 @@ const article2 = {
   excerpt: 'A factual biographical analysis of Irish actress Eve Hewson, detailing her high-profile filmography, personal relationship milestones, and media privacy choices.',
   category_id: 'entertainment',
   tags: 'Eve Hewson, Cinema, Television, Celebrity Biography, Hollywood, Irish Cinema, Bad Sisters, The Perfect Couple',
-  cover_image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop',
+  cover_image: '/eve-hewson-cover.jpg',
   author: 'Genevieve Moreau, Film & Culture Critic',
   author_avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop',
   featured: 1,
