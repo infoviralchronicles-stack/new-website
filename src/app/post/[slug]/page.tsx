@@ -110,11 +110,106 @@ export default async function PostDetailPage({ params }: any) {
           </div>
           <AdSlot type="inarticle" />
           <div className="prose dark:prose-invert prose-indigo max-w-none leading-relaxed text-base sm:text-lg">
-            {post.content.split('\n\n').map((para: string, i: number) => {
-              if (para.startsWith('### ')) return <h3 key={i} className="text-2xl font-bold mt-8 mb-4 text-zinc-900 dark:text-white">{para.replace('### ', '')}</h3>;
-              if (para.startsWith('> ')) return <blockquote key={i} className="pl-4 border-l-4 border-indigo-500 italic text-zinc-700 dark:text-zinc-300 my-6">{para.replace('> ', '')}</blockquote>;
-              if (para.trim() === '---') return <hr key={i} className="my-8 border-zinc-200 dark:border-zinc-800" />;
-              return <p key={i} className="mb-4 text-zinc-800 dark:text-zinc-200">{para}</p>;
+            {post.content.split('\n\n').map((block: string, i: number) => {
+              const trimmed = block.trim();
+              if (!trimmed) return null;
+
+              // Horizontal Rule
+              if (trimmed === '---' || trimmed === '***') {
+                return <hr key={i} className="my-8 border-zinc-200 dark:border-zinc-800" />;
+              }
+
+              // Headings: H1, H2, H3, H4
+              if (trimmed.startsWith('# ')) {
+                return <h1 key={i} className="text-3xl sm:text-4xl font-extrabold mt-10 mb-5 text-zinc-900 dark:text-white tracking-tight">{trimmed.replace(/^#\s+/, '')}</h1>;
+              }
+              if (trimmed.startsWith('## ')) {
+                return <h2 key={i} className="text-2xl sm:text-3xl font-bold mt-10 mb-4 text-zinc-900 dark:text-white tracking-tight pb-2 border-b border-zinc-100 dark:border-zinc-800">{trimmed.replace(/^##\s+/, '')}</h2>;
+              }
+              if (trimmed.startsWith('### ')) {
+                return <h3 key={i} className="text-xl sm:text-2xl font-bold mt-8 mb-3 text-zinc-900 dark:text-white">{trimmed.replace(/^###\s+/, '')}</h3>;
+              }
+              if (trimmed.startsWith('#### ')) {
+                return <h4 key={i} className="text-lg font-bold mt-6 mb-2 text-zinc-800 dark:text-zinc-200">{trimmed.replace(/^####\s+/, '')}</h4>;
+              }
+
+              // Blockquotes
+              if (trimmed.startsWith('> ')) {
+                return (
+                  <blockquote key={i} className="pl-5 border-l-4 border-indigo-600 dark:border-indigo-500 italic text-zinc-700 dark:text-zinc-300 my-6 bg-indigo-50/40 dark:bg-indigo-950/20 py-3 rounded-r-xl">
+                    {trimmed.replace(/^>\s+/, '')}
+                  </blockquote>
+                );
+              }
+
+              // Bullet lists or checklists
+              if (trimmed.split('\n').every(line => line.trim().startsWith('- ') || line.trim().startsWith('* ') || /^-\s*\[[ x]\]/i.test(line.trim()))) {
+                return (
+                  <ul key={i} className="space-y-2 my-5 list-disc pl-6 text-zinc-800 dark:text-zinc-200">
+                    {trimmed.split('\n').map((item, idx) => {
+                      const cleanItem = item.replace(/^[-*]\s*(\[[ x]\]\s*)?/i, '').trim();
+                      const parts = cleanItem.split(/(\*\*.*?\*\*)/g);
+                      return (
+                        <li key={idx} className="leading-relaxed">
+                          {parts.map((part, pIdx) => {
+                            if (part.startsWith('**') && part.endsWith('**')) {
+                              return <strong key={pIdx} className="font-bold text-zinc-900 dark:text-white">{part.slice(2, -2)}</strong>;
+                            }
+                            return part;
+                          })}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                );
+              }
+
+              // Tables
+              if (trimmed.includes('|') && trimmed.includes('\n')) {
+                const rows = trimmed.split('\n').filter(r => r.trim() && !r.includes('---'));
+                if (rows.length > 1) {
+                  const headers = rows[0].split('|').map(c => c.trim()).filter(Boolean);
+                  const dataRows = rows.slice(1);
+                  return (
+                    <div key={i} className="overflow-x-auto my-8 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                      <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800 text-sm">
+                        <thead className="bg-zinc-50 dark:bg-zinc-800/80">
+                          <tr>
+                            {headers.map((h, hIdx) => (
+                              <th key={hIdx} className="px-4 py-3 text-left font-bold text-zinc-900 dark:text-white">{h}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800 bg-white dark:bg-zinc-900">
+                          {dataRows.map((r, rIdx) => {
+                            const cells = r.split('|').map(c => c.trim()).filter(Boolean);
+                            return (
+                              <tr key={rIdx} className="hover:bg-zinc-50/60 dark:hover:bg-zinc-800/40">
+                                {cells.map((c, cIdx) => (
+                                  <td key={cIdx} className="px-4 py-3 text-zinc-700 dark:text-zinc-300">{c}</td>
+                                ))}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  );
+                }
+              }
+
+              // Standard Paragraph with bold formatting (**text**)
+              const parts = trimmed.split(/(\*\*.*?\*\*)/g);
+              return (
+                <p key={i} className="mb-6 text-zinc-800 dark:text-zinc-200 leading-relaxed">
+                  {parts.map((part, pIdx) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return <strong key={pIdx} className="font-bold text-zinc-900 dark:text-white">{part.slice(2, -2)}</strong>;
+                    }
+                    return part;
+                  })}
+                </p>
+              );
             })}
           </div>
           {tagsList.length > 0 && (
