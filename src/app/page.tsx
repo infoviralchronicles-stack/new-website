@@ -28,9 +28,6 @@ export default async function HomePage() {
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
       <Header categories={categories} />
 
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 pt-6">
-        <AdSlot type="header" />
-      </div>
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center space-x-3 px-4 py-2.5 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm mb-8 overflow-hidden">
@@ -116,14 +113,9 @@ export default async function HomePage() {
                 <PostCard key={post.id} post={post} />
               ))}
             </div>
-
-            <div className="mt-10">
-              <AdSlot type="footer" />
-            </div>
           </div>
 
           <aside className="space-y-8">
-            <AdSlot type="sidebar" />
 
             <div className="p-5 pb-2 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
               <h3 className="text-sm font-extrabold uppercase tracking-wider text-zinc-900 dark:text-white flex items-center mb-4">
