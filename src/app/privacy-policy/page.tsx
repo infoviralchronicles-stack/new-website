@@ -10,7 +10,7 @@ export default async function PrivacyPage() {
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
       <Header categories={categories} />
 
-      <main className="flex-1 max-w-4le w-full mx-auto px-4 sm:px-6 py-16">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-16">
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2">
           Privacy Policy
         </h1>

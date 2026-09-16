@@ -14,9 +14,19 @@ export default function ContactPage() {
     setSubmitted(true);
   };
 
+  const defaultCategories = [
+    { id: 'tech', name: 'Technology', slug: 'technology', color: '#3b82f6' },
+    { id: 'biz', name: 'Business', slug: 'business', color: '#10b981' },
+    { id: 'health', name: 'Health', slug: 'health', color: '#ef4444' },
+    { id: 'lifestyle', name: 'Lifestyle', slug: 'lifestyle', color: '#8b5cf6' },
+    { id: 'entertainment', name: 'Entertainment', slug: 'entertainment', color: '#f59e0b' },
+    { id: 'travel', name: 'Travel', slug: 'travel', color: '#06b6d4' },
+    { id: 'sports', name: 'Sports', slug: 'sports', color: '#f97316' },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100">
-      <Header categories={[]} />
+      <Header categories={defaultCategories} />
 
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-16">
         <div className="mb-12 text-center">
