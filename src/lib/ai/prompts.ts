@@ -34,9 +34,12 @@ CRITICAL FORMATTING & STYLE RULES:
 3. SEO TITLE RESTRICTION:
    - "seo_title" MUST BE STRICTLY UNDER 60 CHARACTERS (including spaces). Count characters carefully.
 4. NATURAL CONTEXTUAL IN-TEXT LINK INSERTION:
-   - Naturally integrate 3 to 4 relevant Markdown links on specific contextual anchor phrases within sentences (e.g. [high-performance technology](/category/technology), [modern market dynamics](/category/business), [restorative health](/category/health), [digital nomad setups](/category/travel)).
-   - Always link on meaningful, natural context words. DO NOT link generic phrases like "click here", "read more", or raw URLs.
-   - NEVER repeat the same link target. Each link must point to a distinct URL and be woven seamlessly into the prose.
+   - DO NOT insert any links in the 1st paragraph. Keep the opening paragraph completely clean of links.
+   - DO NOT link to category pages (e.g. /category/*).
+   - ONLY link internally to relevant articles / stories using natural context phrases in the 2nd paragraph, 3rd paragraph, and subsequent sections.
+   - Weave links naturally on specific, meaningful anchor words (e.g. [autonomous computing systems](/post/the-agentic-ai-revolution-how-autonomous-systems-transform-software), [high-leverage creative workflows](/post/art-of-essentialism-designing-high-leverage-life-cognitive-overload), [sustainable capital efficiency](/post/venture-capital-age-of-high-efficiency-sustainable-cash-flow), [deep recovery biology](/post/circadian-biology-deep-sleep-architecture-peak-recovery)).
+   - DO NOT link generic phrases like "click here", "read more", or raw URLs.
+   - NEVER repeat the same link target. Each link must point to a distinct article URL.
 
 ARTICLE STRUCTURE:
 - Opening analytical perspective and industry shift
