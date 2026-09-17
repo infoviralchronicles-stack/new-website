@@ -5,7 +5,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PostCard from '@/components/blog/PostCard';
 import SocialShare from '@/components/blog/SocialShare';
-import NewsletterBox from '@/components/blog/NewsletterBox';
 import AdSlot from '@/components/ads/AdSlot';
 import { getAllCategories, getPostBySlug, getRelatedPosts } from '@/lib/blog-service';
 import { formatMarkdownDate } from '@/lib/utils';
@@ -354,7 +353,6 @@ export default async function PostDetailPage({ params }: any) {
             </div>
           </section>
         )}
-        <div className="mt-16"><NewsletterBox /></div>
       </main>
       <Footer />
     </div>

@@ -105,10 +105,6 @@ export default function Header({ categories }: HeaderProps) {
               </button>
             )}
           </div>
-
-          <Link href="/#newsletter" className="hidden sm:inline-flex items-center justify-center px-4 py-1.5 rounded-full text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-sm transition-all">
-            Subscribe
-          </Link>
         </div>
       </div>
 
@@ -125,11 +121,6 @@ export default function Header({ categories }: HeaderProps) {
                 {cat.name}
               </Link>
             ))}
-          </div>
-          <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-end px-3">
-            <Link href="/#newsletter" onClick={() => setMobileMenuOpen(false)} className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-              Join Newsletter &rarr;
-            </Link>
           </div>
         </div>
       )}

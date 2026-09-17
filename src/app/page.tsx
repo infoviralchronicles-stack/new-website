@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PostCard from '@/components/blog/PostCard';
-import NewsletterBox from '@/components/blog/NewsletterBox';
 import AdSlot from '@/components/ads/AdSlot';
 import { 
   getAllCategories, 
@@ -168,7 +167,7 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm sticky top-20">
               <h3 className="text-sm font-extrabold uppercase tracking-wider text-zinc-900 dark:text-white flex items-center mb-4">
                 <Layers className="w-4 h-4 mr-2 text-indigo-500" />
                 Browse by Topic
@@ -188,10 +187,6 @@ export default async function HomePage() {
                   </Link>
                 ))}
               </div>
-            </div>
-
-            <div className="sticky top-20">
-              <NewsletterBox variant="compact" />
             </div>
           </aside>
         </div>
