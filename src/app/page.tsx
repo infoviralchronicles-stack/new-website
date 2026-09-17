@@ -74,10 +74,17 @@ export default async function HomePage() {
                 <Link
                   key={`${p.id}-${i}`}
                   href={`/post/${p.slug}`}
-                  className="flex items-center whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mr-6"
+                  className="inline-flex items-center whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mr-6 group"
                 >
                   <span className="font-bold text-zinc-400 mr-2">#0{(i % trending.length) + 1}</span>
-                  {p.title}
+                  {p.cover_image && (
+                    <img
+                      src={p.cover_image}
+                      alt={p.title}
+                      className="w-6 h-6 rounded-md object-cover mr-2.5 border border-zinc-200 dark:border-zinc-700 flex-shrink-0 group-hover:scale-105 transition-transform"
+                    />
+                  )}
+                  <span>{p.title}</span>
                 </Link>
               ))}
             </div>
