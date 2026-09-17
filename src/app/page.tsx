@@ -12,15 +12,22 @@ import {
 } from '@/lib/blog-service';
 import { TrendingUp, ArrowRight, Layers } from 'lucide-react';
 
+import Pagination from '@/components/blog/Pagination';
 import { SITE_CONFIG } from '@/lib/site-config';
 
 export const dynamic = 'force-dynamic';
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: { searchParams?: Promise<{ page?: string }> | { page?: string } }) {
+  const resolvedParams = await searchParams;
+  const currentPage = Math.max(1, parseInt(resolvedParams?.page || '1', 10) || 1);
+  const postsPerPage = 10;
+  const offset = (currentPage - 1) * postsPerPage;
+
   const categories = getAllCategories();
   const featured = getFeaturedPosts(4);
   const trending = getTrendingPosts(5);
-  const { posts: latestPosts } = getPublishedPosts(12, 0);
+  const { posts: latestPosts, total: totalPosts } = getPublishedPosts(postsPerPage, offset);
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
 
   const mainFeatured = featured[0];
   const secondaryFeatured = featured.slice(1, 4);
@@ -152,6 +159,12 @@ export default async function HomePage() {
                 <PostCard key={post.id} post={post} />
               ))}
             </div>
+
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              baseUrl="/"
+            />
           </div>
 
           <aside className="space-y-6">

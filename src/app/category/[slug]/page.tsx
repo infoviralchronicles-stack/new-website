@@ -1,9 +1,10 @@
 import React from 'react';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import PostCard from '@/components/blog/PostCard';
-import NewsletterBox from '@/components/blog/NewsletterBox';
+import Pagination from '@/components/blog/Pagination';
 import AdSlot from '@/components/ads/AdSlot';
 import { getAllCategories, getCategoryBySlug, getPublishedPosts } from '@/lib/blog-service';
 
@@ -42,9 +43,14 @@ export async function generateMetadata({ params }: any) {
   };
 }
 
-export default async function CategoryPage({ params }: any) {
+export default async function CategoryPage({ params, searchParams }: any) {
   const resolved = await params;
+  const resolvedQuery = await searchParams;
   const slug = resolved.slug;
+  const currentPage = Math.max(1, parseInt(resolvedQuery?.page || '1', 10) || 1);
+  const postsPerPage = 10;
+  const offset = (currentPage - 1) * postsPerPage;
+
   const categories = getAllCategories();
   const category = getCategoryBySlug(slug);
 
@@ -52,7 +58,8 @@ export default async function CategoryPage({ params }: any) {
     notFound();
   }
 
-  const { posts, total } = getPublishedPosts(24, 0, slug);
+  const { posts, total } = getPublishedPosts(postsPerPage, offset, slug);
+  const totalPages = Math.ceil(total / postsPerPage);
   const categoryUrl = `${SITE_CONFIG.siteUrl}/category/${category.slug}`;
 
   const breadcrumbJsonLd = {
@@ -109,14 +116,21 @@ export default async function CategoryPage({ params }: any) {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-12">
         <AdSlot type="header" className="mb-10" />
 
-        <div className="grid grid-cols-1 lg:gri-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {posts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {posts.map((post) => (
-                  <PostCard key={post.id} post={post} />
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {posts.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                  ))}
+                </div>
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  baseUrl={`/category/${category.slug}`}
+                />
+              </>
             ) : (
               <div className="text-center py-16 border border-dashed border-zinc-300 dark:border-zinc-800 rounded-2xl">
                 <h3 className="text-base font-semibold text-zinc-700 dark:text-zinc-300">No articles found yet</h3>
@@ -125,9 +139,31 @@ export default async function CategoryPage({ params }: any) {
             )}
           </div>
 
-          <aside className="space-y-8">
-            <AdSlot type="sidebar" />
-            <NewsletterBox />
+          <aside className="space-y-6">
+            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm sticky top-20">
+              <h3 className="text-sm font-extrabold uppercase tracking-wider text-zinc-900 dark:text-white flex items-center mb-4">
+                Browse Other Topics
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((c) => (
+                  <Link
+                    key={c.id}
+                    href={`/category/${c.slug}`}
+                    className={`inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+                      c.slug === category.slug
+                        ? 'bg-indigo-600 text-white shadow-sm'
+                        : 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-zinc-700'
+                    }`}
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full mr-2 flex-shrink-0"
+                      style={{ backgroundColor: c.color }}
+                    />
+                    {c.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </aside>
         </div>
       </main>
