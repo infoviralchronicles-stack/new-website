@@ -35,7 +35,7 @@ CRITICAL FORMATTING & STYLE RULES:
    - Create direct, professional, high-authority headlines.
 3. SEO TITLE & META DESCRIPTION RULES:
    - "seo_title" MUST BE STRICTLY UNDER 60 CHARACTERS (including spaces).
-   - "seo_description" MUST BE STRICTLY UNDER 155 CHARACTERS AND MUST INCLUDE THE EXACT TARGET KEYWORD/TOPIC verbatim near the beginning for optimal search ranking (e.g. topic "${topic}").
+   - "seo_description" MUST BE STRICTLY UNDER 140 CHARACTERS (maximum 135-139 characters, never exceed 140) AND MUST INCLUDE THE EXACT TARGET KEYWORD/TOPIC verbatim near the beginning for optimal search ranking (e.g. topic "${topic}").
 4. NATURAL CONTEXTUAL IN-TEXT LINK INSERTION (TOPICALLY RELEVANT ONLY):
    - DO NOT insert any links in the 1st paragraph. Keep the opening paragraph completely clean of links.
    - DO NOT link to category pages (e.g. /category/*).
@@ -62,7 +62,7 @@ Format your response strictly as valid JSON with these exact keys:
   "tags": "Comma-separated keywords",
   "reading_time": 7,
   "seo_title": "Max 58 chars strict SEO title",
-  "seo_description": "Max 155 chars informative meta description containing the EXACT topic keyword verbatim."
+  "seo_description": "STRICTLY under 140 chars informative meta description containing the EXACT topic keyword verbatim."
 }`;
 }
 
