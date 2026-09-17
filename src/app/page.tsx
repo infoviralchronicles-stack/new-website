@@ -155,11 +155,10 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <aside className="space-y-8">
-
+          <aside className="space-y-6">
             <div className="p-5 pb-2 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
               <h3 className="text-sm font-extrabold uppercase tracking-wider text-zinc-900 dark:text-white flex items-center mb-4">
-                <TrendingUp className="w-4 h-4 mr-2 text-red-500" />
+                <TrendingUp className="w-4 h-4 mr-2 text-rose-500" />
                 Most Read Across Niches
               </h3>
               <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
@@ -169,7 +168,31 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <NewsletterBox />
+            <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-sm">
+              <h3 className="text-sm font-extrabold uppercase tracking-wider text-zinc-900 dark:text-white flex items-center mb-4">
+                <Layers className="w-4 h-4 mr-2 text-indigo-500" />
+                Browse by Topic
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    href={`/category/${cat.slug}`}
+                    className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-100 dark:bg-zinc-800/80 text-zinc-700 dark:text-zinc-300 hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-zinc-700 transition"
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full mr-2 flex-shrink-0"
+                      style={{ backgroundColor: cat.color }}
+                    />
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="sticky top-20">
+              <NewsletterBox variant="compact" />
+            </div>
           </aside>
         </div>
       </main>
