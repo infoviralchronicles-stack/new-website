@@ -33,8 +33,9 @@ CRITICAL FORMATTING & STYLE RULES:
 3. NO CLICHE / GENERIC TITLES:
    - DO NOT use phrases like "Comprehensive Guide", "Ultimate Guide", "Complete Guide", "Explore", "Exploring", "A Guide to", or "Everything You Need to Know".
    - Create direct, professional, high-authority headlines.
-3. SEO TITLE RESTRICTION:
-   - "seo_title" MUST BE STRICTLY UNDER 60 CHARACTERS (including spaces). Count characters carefully.
+3. SEO TITLE & META DESCRIPTION RULES:
+   - "seo_title" MUST BE STRICTLY UNDER 60 CHARACTERS (including spaces).
+   - "seo_description" MUST BE STRICTLY UNDER 155 CHARACTERS AND MUST INCLUDE THE EXACT TARGET KEYWORD/TOPIC verbatim near the beginning for optimal search ranking (e.g. topic "${topic}").
 4. NATURAL CONTEXTUAL IN-TEXT LINK INSERTION (TOPICALLY RELEVANT ONLY):
    - DO NOT insert any links in the 1st paragraph. Keep the opening paragraph completely clean of links.
    - DO NOT link to category pages (e.g. /category/*).
@@ -61,7 +62,7 @@ Format your response strictly as valid JSON with these exact keys:
   "tags": "Comma-separated keywords",
   "reading_time": 7,
   "seo_title": "Max 58 chars strict SEO title",
-  "seo_description": "Max 155 chars informative meta description"
+  "seo_description": "Max 155 chars informative meta description containing the EXACT topic keyword verbatim."
 }`;
 }
 
