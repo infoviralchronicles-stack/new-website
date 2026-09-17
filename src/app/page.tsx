@@ -76,7 +76,6 @@ export default async function HomePage() {
                   href={`/post/${p.slug}`}
                   className="inline-flex items-center whitespace-nowrap text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mr-6 group"
                 >
-                  <span className="font-bold text-zinc-400 mr-2">#0{(i % trending.length) + 1}</span>
                   {p.cover_image && (
                     <img
                       src={p.cover_image}
@@ -84,7 +83,7 @@ export default async function HomePage() {
                       className="w-6 h-6 rounded-md object-cover mr-2.5 border border-zinc-200 dark:border-zinc-700 flex-shrink-0 group-hover:scale-105 transition-transform"
                     />
                   )}
-                  <span>{p.title}</span>
+                  <span className="font-medium">{p.title}</span>
                 </Link>
               ))}
             </div>
