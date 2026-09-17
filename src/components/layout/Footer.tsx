@@ -37,11 +37,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100 mb-4">Platform & Tools</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-100 mb-4">Platform & Resources</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/admin" className="hover:text-white transition-colors">Admin Dashboard</Link></li>
-              <li><Link href="/admin/ai-studio" className="hover:text-white transition-colors">AI Automation Studio</Link></li>
-              <li><Link href="/admin/settings" className="hover:text-white transition-colors">Ad & Site Configuration</Link></li>
+              <li><Link href="/search" className="hover:text-white transition-colors">Search & Explore</Link></li>
               <li><Link href="/sitemap.xml" className="hover:text-white transition-colors">XML Sitemap</Link></li>
               <li><Link href="/robots.txt" className="hover:text-white transition-colors">Robots Protocol</Link></li>
             </ul>

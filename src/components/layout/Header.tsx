@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, Menu, X, Sparkles } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
 
 interface CategoryItem {
   id: string;
@@ -44,14 +44,10 @@ export default function Header({ categories }: HeaderProps) {
             </span>
           </div>
           <div className="flex items-center space-x-4">
-            <Link href="/admin" className="flex items-center space-x-1 hover:text-white transition-colors">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span className="font-medium">Admin & AI Studio</span>
-            </Link>
-            <Link href="/about" className="hidden md:inline hover:text-white transition-colors">
+            <Link href="/about" className="hover:text-white transition-colors">
               About
             </Link>
-            <Link href="/contact" className="hidden md:inline hover:text-white transition-colors">
+            <Link href="/contact" className="hover:text-white transition-colors">
               Contact
             </Link>
           </div>
@@ -130,12 +126,9 @@ export default function Header({ categories }: HeaderProps) {
               </Link>
             ))}
           </div>
-          <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between px-3">
-            <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 flex items-center">
-              <Sparkles className="w-3.5 h-3.5 mr-1" /> Admin Studio
-            </Link>
-            <Link href="/#newsletter" onClick={() => setMobileMenuOpen(false)} className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
-              Join Newsletter &rquo;
+          <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-end px-3">
+            <Link href="/#newsletter" onClick={() => setMobileMenuOpen(false)} className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+              Join Newsletter &rarr;
             </Link>
           </div>
         </div>
